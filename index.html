@@ -272,22 +272,22 @@
   <div class="field-row">
     <div class="field">
       <label>Nome da empresa <span class="req">*</span></label>
-      <input type="text" placeholder="Ex: Meet Assessoria Contabil">
+      <input id="f-empresa" type="text" placeholder="Ex: Meet Assessoria Contabil">
     </div>
     <div class="field">
       <label>Segmento / Nicho <span class="req">*</span></label>
-      <input type="text" placeholder="Ex: Contabilidade para medicos">
+      <input id="f-segmento" type="text" placeholder="Ex: Contabilidade para medicos">
     </div>
   </div>
 
   <div class="field-row-3">
     <div class="field">
       <label>Cidade / Estado <span class="req">*</span></label>
-      <input type="text" placeholder="Ex: Rio de Janeiro / RJ">
+      <input id="f-cidade" type="text" placeholder="Ex: Rio de Janeiro / RJ">
     </div>
     <div class="field">
       <label>Tempo de mercado <span class="req">*</span></label>
-      <select>
+      <select id="f-tempo-mercado">
         <option value="">Selecione</option>
         <option>Menos de 1 ano</option>
         <option>1 a 3 anos</option>
@@ -298,7 +298,7 @@
     </div>
     <div class="field">
       <label>Num. de funcionarios <span class="req">*</span></label>
-      <select>
+      <select id="f-funcionarios">
         <option value="">Selecione</option>
         <option>So eu (fundador)</option>
         <option>2 a 5</option>
@@ -311,15 +311,15 @@
 
   <div class="field">
     <label>Site da empresa <span class="opt">(se tiver)</span></label>
-    <input type="url" placeholder="https://www.suaempresa.com.br">
+    <input id="f-site" type="url" placeholder="https://www.suaempresa.com.br">
     <div class="hint">Nao tem site? Sem problema — analisamos o que existe e recomendamos.</div>
   </div>
 
   <div class="field">
     <label>Quem e o principal decisor deste projeto? <span class="req">*</span></label>
     <div class="field-row">
-      <input type="text" placeholder="Nome completo">
-      <input type="text" placeholder="Cargo (Ex: Socio, Diretor, Gerente)">
+      <input id="f-decisor-nome" type="text" placeholder="Nome completo">
+      <input id="f-decisor-cargo" type="text" placeholder="Cargo (Ex: Socio, Diretor, Gerente)">
     </div>
   </div>
 </div>
@@ -332,17 +332,17 @@
 
   <div class="field">
     <label>Descreva seu produto/servico principal em 2-3 frases <span class="req">*</span></label>
-    <textarea placeholder="Ex: Oferecemos contabilidade especializada para medicos e dentistas autonomos, com foco em reducao legal de impostos e migracao PF para PJ."></textarea>
+    <textarea id="f-produto-desc" placeholder="Ex: Oferecemos contabilidade especializada para medicos e dentistas autonomos, com foco em reducao legal de impostos e migracao PF para PJ."></textarea>
   </div>
 
   <div class="field-row">
     <div class="field">
       <label>Ticket medio mensal <span class="req">*</span></label>
-      <input type="text" placeholder="Ex: R$ 350/mes">
+      <input id="f-ticket" type="text" placeholder="Ex: R$ 350/mes">
     </div>
     <div class="field">
       <label>Modelo de cobranca <span class="req">*</span></label>
-      <select>
+      <select id="f-modelo-cobranca">
         <option value="">Selecione</option>
         <option>Recorrente (mensal/anual)</option>
         <option>Projeto unico</option>
@@ -354,12 +354,12 @@
 
   <div class="field">
     <label>Tem mais de um produto/plano? Se sim, liste com precos <span class="opt">(se aplicavel)</span></label>
-    <textarea rows="3" placeholder="Ex: Plano Essencial R$350/mes (2 NFs, 1 func), Plano Premium R$800/mes (5 NFs, folha completa)"></textarea>
+    <textarea id="f-outros-planos" rows="3" placeholder="Ex: Plano Essencial R$350/mes (2 NFs, 1 func), Plano Premium R$800/mes (5 NFs, folha completa)"></textarea>
   </div>
 
   <div class="field">
     <label>Qual o principal diferencial vs concorrentes? <span class="req">*</span></label>
-    <textarea rows="2" placeholder="Ex: Somos os unicos especializados exclusivamente em saude, com mapa tributario em 72h"></textarea>
+    <textarea id="f-diferencial" rows="2" placeholder="Ex: Somos os unicos especializados exclusivamente em saude, com mapa tributario em 72h"></textarea>
   </div>
 </div>
 
@@ -372,27 +372,27 @@
 
   <div class="field">
     <label>Descreva seu melhor cliente (o que mais da lucro e menos da dor de cabeca) <span class="req">*</span></label>
-    <textarea placeholder="Ex: Medico autonomo, 35-50 anos, com microempresa, fatura entre R$15k-50k/mes, precisa emitir nota para plano de saude"></textarea>
+    <textarea id="f-cliente-ideal" placeholder="Ex: Medico autonomo, 35-50 anos, com microempresa, fatura entre R$15k-50k/mes, precisa emitir nota para plano de saude"></textarea>
   </div>
 
   <div class="field">
     <label>Que cargo/profissao tem a pessoa que DECIDE a compra? <span class="req">*</span></label>
-    <input type="text" placeholder="Ex: O proprio medico, pois e dono do consultorio">
+    <input id="f-cargo-decisor" type="text" placeholder="Ex: O proprio medico, pois e dono do consultorio">
   </div>
 
   <div class="field">
     <label>Top 3 dores que fazem o cliente procurar voce <span class="req">*</span></label>
-    <textarea rows="3" placeholder="1. Paga imposto demais e nao sabe como reduzir&#10;2. Medo de cair na malha fina&#10;3. Nao entende nada de contabilidade"></textarea>
+    <textarea id="f-top3-dores" rows="3" placeholder="1. Paga imposto demais e nao sabe como reduzir&#10;2. Medo de cair na malha fina&#10;3. Nao entende nada de contabilidade"></textarea>
   </div>
 
   <div class="field">
     <label>Objecoes mais comuns que ouve antes de fechar <span class="req">*</span></label>
-    <textarea rows="3" placeholder="1. 'Contadores sao todos iguais'&#10;2. 'Ja tenho contador'&#10;3. 'E muito caro'"></textarea>
+    <textarea id="f-objecoes" rows="3" placeholder="1. 'Contadores sao todos iguais'&#10;2. 'Ja tenho contador'&#10;3. 'E muito caro'"></textarea>
   </div>
 
   <div class="field">
     <label>Ciclo medio de venda (do primeiro contato ao fechamento) <span class="req">*</span></label>
-    <select>
+    <select id="f-ciclo-venda">
       <option value="">Selecione</option>
       <option>Mesmo dia</option>
       <option>1 a 7 dias</option>
@@ -414,13 +414,13 @@
   <div class="field">
     <label>Redes sociais ativas (marque todas que usa) <span class="req">*</span></label>
     <div class="option-group">
-      <label class="option-item"><input type="checkbox"> Instagram</label>
-      <label class="option-item"><input type="checkbox"> LinkedIn</label>
-      <label class="option-item"><input type="checkbox"> YouTube</label>
-      <label class="option-item"><input type="checkbox"> TikTok</label>
-      <label class="option-item"><input type="checkbox"> Facebook</label>
-      <label class="option-item"><input type="checkbox"> Twitter/X</label>
-      <label class="option-item"><input type="checkbox"> Nenhuma</label>
+      <label class="option-item"><input type="checkbox" name="redes"> Instagram</label>
+      <label class="option-item"><input type="checkbox" name="redes"> LinkedIn</label>
+      <label class="option-item"><input type="checkbox" name="redes"> YouTube</label>
+      <label class="option-item"><input type="checkbox" name="redes"> TikTok</label>
+      <label class="option-item"><input type="checkbox" name="redes"> Facebook</label>
+      <label class="option-item"><input type="checkbox" name="redes"> Twitter/X</label>
+      <label class="option-item"><input type="checkbox" name="redes"> Nenhuma</label>
     </div>
   </div>
 
@@ -473,7 +473,7 @@
 
   <div class="field">
     <label>Outras ferramentas que usa no dia a dia <span class="opt">(se aplicavel)</span></label>
-    <textarea rows="2" placeholder="Ex: ContaAzul, Dominio Sistemas, Google Sheets, Notion, Trello..."></textarea>
+    <textarea id="f-outras-ferramentas" rows="2" placeholder="Ex: ContaAzul, Dominio Sistemas, Google Sheets, Notion, Trello..."></textarea>
   </div>
 </div>
 
@@ -486,21 +486,21 @@
   <div class="field">
     <label>De onde vem a maioria dos seus clientes hoje? <span class="req">*</span></label>
     <div class="option-group">
-      <label class="option-item"><input type="checkbox"> Indicacao / boca a boca</label>
-      <label class="option-item"><input type="checkbox"> Google (busca organica)</label>
-      <label class="option-item"><input type="checkbox"> Instagram</label>
-      <label class="option-item"><input type="checkbox"> LinkedIn</label>
-      <label class="option-item"><input type="checkbox"> Anuncios pagos</label>
-      <label class="option-item"><input type="checkbox"> Parcerias</label>
-      <label class="option-item"><input type="checkbox"> Eventos/networking</label>
-      <label class="option-item"><input type="checkbox"> Nao sei com certeza</label>
+      <label class="option-item"><input type="checkbox" name="origem"> Indicacao / boca a boca</label>
+      <label class="option-item"><input type="checkbox" name="origem"> Google (busca organica)</label>
+      <label class="option-item"><input type="checkbox" name="origem"> Instagram</label>
+      <label class="option-item"><input type="checkbox" name="origem"> LinkedIn</label>
+      <label class="option-item"><input type="checkbox" name="origem"> Anuncios pagos</label>
+      <label class="option-item"><input type="checkbox" name="origem"> Parcerias</label>
+      <label class="option-item"><input type="checkbox" name="origem"> Eventos/networking</label>
+      <label class="option-item"><input type="checkbox" name="origem"> Nao sei com certeza</label>
     </div>
   </div>
 
   <div class="field-row">
     <div class="field">
       <label>Quantos clientes novos por mes (media)? <span class="req">*</span></label>
-      <select>
+      <select id="f-clientes-novos">
         <option value="">Selecione</option>
         <option>0 a 2</option>
         <option>3 a 5</option>
@@ -511,7 +511,7 @@
     </div>
     <div class="field">
       <label>Quantos clientes ativos tem hoje? <span class="req">*</span></label>
-      <select>
+      <select id="f-clientes-ativos">
         <option value="">Selecione</option>
         <option>Menos de 10</option>
         <option>10 a 30</option>
@@ -544,7 +544,7 @@
 
   <div class="field">
     <label>Qual a taxa de cancelamento / churn mensal? <span class="opt">(se recorrente)</span></label>
-    <select>
+    <select id="f-churn">
       <option value="">Selecione</option>
       <option>Menos de 2%</option>
       <option>2% a 5%</option>
@@ -564,19 +564,19 @@
   <div class="field">
     <label>Qual o principal objetivo com marketing nos proximos 6 meses? <span class="req">*</span></label>
     <div class="option-group">
-      <label class="option-item"><input type="checkbox"> Gerar mais leads qualificados</label>
-      <label class="option-item"><input type="checkbox"> Aumentar conversao dos leads atuais</label>
-      <label class="option-item"><input type="checkbox"> Construir autoridade / marca</label>
-      <label class="option-item"><input type="checkbox"> Reduzir dependencia de indicacao</label>
-      <label class="option-item"><input type="checkbox"> Estruturar processo comercial</label>
-      <label class="option-item"><input type="checkbox"> Automatizar follow-up / nurturing</label>
-      <label class="option-item"><input type="checkbox"> Escalar o que ja funciona</label>
+      <label class="option-item"><input type="checkbox" name="objetivo"> Gerar mais leads qualificados</label>
+      <label class="option-item"><input type="checkbox" name="objetivo"> Aumentar conversao dos leads atuais</label>
+      <label class="option-item"><input type="checkbox" name="objetivo"> Construir autoridade / marca</label>
+      <label class="option-item"><input type="checkbox" name="objetivo"> Reduzir dependencia de indicacao</label>
+      <label class="option-item"><input type="checkbox" name="objetivo"> Estruturar processo comercial</label>
+      <label class="option-item"><input type="checkbox" name="objetivo"> Automatizar follow-up / nurturing</label>
+      <label class="option-item"><input type="checkbox" name="objetivo"> Escalar o que ja funciona</label>
     </div>
   </div>
 
   <div class="field">
     <label>Faturamento mensal atual (faixa) <span class="req">*</span></label>
-    <select>
+    <select id="f-faturamento">
       <option value="">Selecione</option>
       <option>Ate R$ 10.000</option>
       <option>R$ 10.000 a R$ 30.000</option>
@@ -589,7 +589,7 @@
 
   <div class="field">
     <label>Budget mensal disponivel para marketing (trafego + ferramentas) <span class="req">*</span></label>
-    <select>
+    <select id="f-budget">
       <option value="">Selecione</option>
       <option>Ainda nao tenho budget definido</option>
       <option>Ate R$ 1.000/mes</option>
@@ -614,7 +614,7 @@
 
   <div class="field">
     <label>Algo mais que acha importante compartilhar? <span class="opt">(opcional)</span></label>
-    <textarea rows="3" placeholder="Ex: Estou planejando lancar um novo servico, tive uma experiencia ruim com outra agencia, tenho uma meta especifica..."></textarea>
+    <textarea id="f-observacoes" rows="3" placeholder="Ex: Estou planejando lancar um novo servico, tive uma experiencia ruim com outra agencia, tenho uma meta especifica..."></textarea>
   </div>
 </div>
 
@@ -650,46 +650,20 @@
   var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDNF0HiRGeb9sv88Y7bMUqDngt8axkApAizobeyKwEJ6a80PEMsqdeEoJiyThR4vSZEQ/exec';
 
   // ═══════════ COLETA DE DADOS ═══════════
-  function getVal(placeholder) {
-    var el = document.querySelector('[placeholder*="' + placeholder + '"]');
-    return el ? el.value : '';
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
   }
-  function getSelect(label) {
-    var labels = document.querySelectorAll('label');
-    for (var i = 0; i < labels.length; i++) {
-      if (labels[i].textContent.indexOf(label) !== -1) {
-        var next = labels[i].nextElementSibling;
-        if (next && next.tagName === 'SELECT') return next.value;
-      }
-    }
-    return '';
+
+  function getCheckedRadio(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.parentElement.textContent.trim() : '';
   }
-  function getTextarea(placeholder) {
-    var el = document.querySelector('textarea[placeholder*="' + placeholder + '"]');
-    return el ? el.value : '';
-  }
-  function getChecked(name) {
-    var checked = document.querySelectorAll('input[name="' + name + '"]:checked');
-    if (checked.length > 0) {
-      return checked[0].parentElement.textContent.trim();
-    }
-    return '';
-  }
-  function getCheckboxes(sectionTitle) {
+
+  function getCheckedBoxes(name) {
+    var els = document.querySelectorAll('input[name="' + name + '"]:checked');
     var results = [];
-    var found = false;
-    var labels = document.querySelectorAll('label');
-    for (var i = 0; i < labels.length; i++) {
-      if (labels[i].textContent.indexOf(sectionTitle) !== -1) {
-        found = true;
-        continue;
-      }
-      if (found && labels[i].classList.contains('option-item')) {
-        var cb = labels[i].querySelector('input[type="checkbox"]');
-        if (cb && cb.checked) results.push(labels[i].textContent.trim());
-      }
-      if (found && !labels[i].classList.contains('option-item') && results.length > 0) break;
-    }
+    els.forEach(function(el) { results.push(el.parentElement.textContent.trim()); });
     return results.join(', ');
   }
 
@@ -698,67 +672,54 @@
     var btn = document.getElementById('btn-submit');
     var status = document.getElementById('submit-status');
 
-    // Coleta
     var data = {
-      empresa: getVal('Meet Assessoria'),
-      segmento: getVal('Contabilidade para'),
-      cidade: getVal('Rio de Janeiro'),
-      tempoMercado: getSelect('Tempo de mercado'),
-      funcionarios: getSelect('Num. de funcionarios'),
-      site: getVal('suaempresa.com'),
-      decisorNome: getVal('Nome completo'),
-      decisorCargo: getVal('Socio, Diretor'),
-      produtoDescricao: getTextarea('Oferecemos contabilidade'),
-      ticketMedio: getVal('R$ 350'),
-      modeloCobranca: getSelect('Modelo de cobranca'),
-      outrosPlanos: getTextarea('Plano Essencial'),
-      diferencial: getTextarea('unicos especializados'),
-      clienteIdeal: getTextarea('Medico autonomo'),
-      cargoDecisor: getVal('proprio medico'),
-      top3Dores: getTextarea('Paga imposto demais'),
-      objecoes: getTextarea('Contadores sao todos'),
-      cicloVenda: getSelect('Ciclo medio de venda'),
-      redesSociais: getCheckboxes('Redes sociais ativas'),
-      whatsapp: getChecked('whatsapp'),
-      jaFezAds: getChecked('ads'),
-      crmAtual: getChecked('crm'),
-      emailMarketing: getChecked('email'),
-      agendaOnline: getChecked('agenda'),
-      outrasFerramentas: getTextarea('ContaAzul'),
-      origemClientes: getCheckboxes('De onde vem a maioria'),
-      clientesNovosMes: getSelect('Quantos clientes novos'),
-      clientesAtivos: getSelect('Quantos clientes ativos'),
-      quemVende: getChecked('vendedor'),
-      depoimentos: getChecked('cases'),
-      churn: getSelect('taxa de cancelamento'),
-      objetivoMkt: getCheckboxes('principal objetivo'),
-      faturamento: getSelect('Faturamento mensal'),
-      budgetMkt: getSelect('Budget mensal'),
-      urgencia: getChecked('urgencia'),
-      observacoes: getTextarea('planejando lancar')
+      empresa: val('f-empresa'),
+      segmento: val('f-segmento'),
+      cidade: val('f-cidade'),
+      tempoMercado: val('f-tempo-mercado'),
+      funcionarios: val('f-funcionarios'),
+      site: val('f-site'),
+      decisorNome: val('f-decisor-nome'),
+      decisorCargo: val('f-decisor-cargo'),
+      produtoDescricao: val('f-produto-desc'),
+      ticketMedio: val('f-ticket'),
+      modeloCobranca: val('f-modelo-cobranca'),
+      outrosPlanos: val('f-outros-planos'),
+      diferencial: val('f-diferencial'),
+      clienteIdeal: val('f-cliente-ideal'),
+      cargoDecisor: val('f-cargo-decisor'),
+      top3Dores: val('f-top3-dores'),
+      objecoes: val('f-objecoes'),
+      cicloVenda: val('f-ciclo-venda'),
+      redesSociais: getCheckedBoxes('redes'),
+      whatsapp: getCheckedRadio('whatsapp'),
+      jaFezAds: getCheckedRadio('ads'),
+      crmAtual: getCheckedRadio('crm'),
+      emailMarketing: getCheckedRadio('email'),
+      agendaOnline: getCheckedRadio('agenda'),
+      outrasFerramentas: val('f-outras-ferramentas'),
+      origemClientes: getCheckedBoxes('origem'),
+      clientesNovosMes: val('f-clientes-novos'),
+      clientesAtivos: val('f-clientes-ativos'),
+      quemVende: getCheckedRadio('vendedor'),
+      depoimentos: getCheckedRadio('cases'),
+      churn: val('f-churn'),
+      objetivoMkt: getCheckedBoxes('objetivo'),
+      faturamento: val('f-faturamento'),
+      budgetMkt: val('f-budget'),
+      urgencia: getCheckedRadio('urgencia'),
+      observacoes: val('f-observacoes')
     };
 
-    // Validacao minima
     if (!data.empresa) {
       status.innerHTML = '<span style="color:#ef4444">Preencha pelo menos o nome da empresa.</span>';
       return;
     }
 
-    // UI feedback
     btn.disabled = true;
     btn.textContent = 'Enviando...';
     btn.style.opacity = '0.6';
     status.textContent = 'Salvando suas informacoes...';
-
-    // Enviar
-    if (GOOGLE_SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
-      // Modo offline — salva como JSON no console
-      console.log('EE Intake Data:', JSON.stringify(data, null, 2));
-      btn.textContent = 'Dados Capturados!';
-      btn.style.background = 'linear-gradient(135deg, #059669, #22c55e)';
-      status.innerHTML = '<span style="color:#059669">Dados capturados no console (modo offline). Configure a URL do Google Apps Script para salvar na planilha.</span>';
-      return;
-    }
 
     fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
