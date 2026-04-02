@@ -379,7 +379,10 @@
       btn.disabled = false;
     });
   }
-  // ═══════════ START EE — Consolida dados e gera JSON ═══════════
+  // ═══════════ START EE — Envia para trigger-server ═══════════
+  // Configurar o endereco do trigger-server
+  var TRIGGER_SERVER = localStorage.getItem('ee_trigger_server') || 'http://localhost:3099';
+
   function startEE() {
     var btn = document.getElementById('btn-start-ee');
     var status = document.getElementById('ee-status');
@@ -390,13 +393,22 @@
       return;
     }
 
-    btn.disabled = true;
-    btn.textContent = 'Gerando...';
-    btn.style.opacity = '0.7';
-    status.textContent = 'Consolidando dados do Intake + Brief...';
+    // Se primeira vez, pedir URL do server
+    if (!localStorage.getItem('ee_trigger_server')) {
+      var serverUrl = prompt('URL do Trigger Server (Enter para localhost:3099):', 'http://localhost:3099');
+      if (serverUrl) {
+        TRIGGER_SERVER = serverUrl;
+        localStorage.setItem('ee_trigger_server', serverUrl);
+      }
+    }
 
-    // Consolidar TODOS os dados do Brief (form atual)
-    var briefData = {
+    btn.disabled = true;
+    btn.innerHTML = '&#x1F680; Gerando EE...';
+    btn.style.opacity = '0.7';
+    status.textContent = 'Consolidando dados e enviando para o orquestrador...';
+
+    // Consolidar TODOS os dados do Brief
+    var eeData = {
       empresa: empresa,
       dataEntrevista: val('b-data'),
       entrevistador: val('b-entrevistador'),
@@ -430,64 +442,65 @@
       notas: val('b-notas')
     };
 
-    // Buscar dados do Intake Form via Google Sheets API (Apps Script)
-    // Como estamos em no-cors, vamos incluir os dados do Intake que o Eduardo
-    // deve ter disponivel. Por ora, geramos com os dados do Brief + placeholders do Intake.
-    // No futuro: Apps Script retorna o Intake completo via doGet.
+    // Tentar enviar para trigger-server
+    fetch(TRIGGER_SERVER + '/webhook/start-ee', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Worker-Token': localStorage.getItem('ee_worker_token') || prompt('Worker Token:', '') || ''
+      },
+      body: JSON.stringify(eeData)
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.accepted) {
+        btn.innerHTML = '&#x2705; EE em Producao!';
+        btn.style.background = 'linear-gradient(135deg,#059669,#22c55e)';
+        status.innerHTML = '<span style="color:#059669">' +
+          '<strong>EE iniciado para ' + empresa + '</strong><br><br>' +
+          '15 agents sendo executados automaticamente.<br>' +
+          'Tempo estimado: ' + (data.estimatedTime || '15-30 min') + '<br><br>' +
+          'O EE sera salvo em <code>outputs/EE-' + empresa.toLowerCase().replace(/[^a-z0-9]/g,'-') + '-2026.html</code><br>' +
+          'e aberto no browser automaticamente quando pronto.</span>';
 
-    // Montar JSON completo para o orquestrador
-    var eeData = Object.assign({
-      // Dados que o Eduardo preenche/confirma do Intake
-      segmento: prompt('Segmento/Nicho (do Intake Form):') || '',
-      cidade: prompt('Cidade (do Intake Form):') || '',
-      ticketMedio: prompt('Ticket medio (do Intake Form):') || '',
-      modeloCobranca: prompt('Modelo de cobranca (Recorrente/Projeto/Misto):') || '',
-      produtoDescricao: prompt('Descricao do produto/servico (1-2 frases):') || '',
-      diferencial: prompt('Diferencial declarado pelo cliente:') || '',
-      clienteIdeal: prompt('Cliente ideal (do Intake Form):') || '',
-      cargoDecisor: prompt('Cargo do decisor de compra:') || '',
-      top3Dores: prompt('Top 3 dores (do Intake Form):') || '',
-      objecoes: prompt('Objecoes mais comuns:') || '',
-      cicloVenda: prompt('Ciclo de venda:') || '',
-      redesSociais: prompt('Redes sociais ativas:') || '',
-      crmAtual: prompt('CRM atual:') || '',
-      jaFezAds: prompt('Ja fez ads? (Sim/Nao/Parou):') || '',
-      origemClientes: prompt('De onde vem os clientes:') || '',
-      clientesNovosMes: prompt('Clientes novos/mes:') || '',
-      clientesAtivos: prompt('Clientes ativos total:') || '',
-      faturamento: prompt('Faturamento mensal (faixa):') || '',
-      budgetMkt: prompt('Budget de marketing:') || '',
-      objetivoMkt: prompt('Objetivo principal de MKT:') || '',
-      outrasFerramentas: prompt('Outras ferramentas em uso:') || ''
-    }, briefData);
+        // Salvar token para proxima vez
+        var token = document.querySelector('[name="X-Worker-Token"]');
+        if (!localStorage.getItem('ee_worker_token')) {
+          localStorage.setItem('ee_worker_token', prompt('Salvar token para proximas vezes? (cole o token):', '') || '');
+        }
+      } else {
+        throw new Error(data.error || 'Erro desconhecido');
+      }
+    })
+    .catch(function(err) {
+      // Fallback: download JSON se server nao estiver rodando
+      btn.innerHTML = '&#x1F4E5; Baixar JSON (server offline)';
+      btn.style.background = 'linear-gradient(135deg,#d97706,#f59e0b)';
 
-    // Gerar slug da empresa
-    var slug = empresa.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+      var slug = empresa.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+      var blob = new Blob([JSON.stringify(eeData, null, 2)], {type: 'application/json'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'ee-data-' + slug + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
 
-    // Download do JSON
-    var blob = new Blob([JSON.stringify(eeData, null, 2)], {type: 'application/json'});
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'ee-data-' + slug + '.json';
-    a.click();
-    URL.revokeObjectURL(url);
-
-    btn.textContent = 'JSON Gerado!';
-    btn.style.background = 'linear-gradient(135deg,#059669,#22c55e)';
-    status.innerHTML = '<span style="color:#059669">Arquivo <strong>ee-data-' + slug + '.json</strong> baixado!<br><br>' +
-      'Proximo passo — abra o terminal e rode:<br>' +
-      '<code style="background:#0a1628;color:#60a5fa;padding:8px 16px;border-radius:8px;display:inline-block;margin-top:8px;font-size:13px">' +
-      'node scripts/ee-orchestrator.js ee-data-' + slug + '.json</code><br><br>' +
-      'O orquestrador vai ativar os 15 agents automaticamente e gerar o EE.</span>';
-
-    // Re-habilitar apos 5s
-    setTimeout(function() {
-      btn.disabled = false;
-      btn.textContent = '\u{1F680} Start EE';
-      btn.style.background = 'linear-gradient(135deg,#1b3a68,#3b6fad)';
-      btn.style.opacity = '1';
-    }, 5000);
+      status.innerHTML = '<span style="color:#d97706">' +
+        'Trigger server offline (' + err.message + ').<br>' +
+        'JSON baixado como fallback.<br><br>' +
+        'Rode manualmente:<br>' +
+        '<code style="background:#0a1628;color:#60a5fa;padding:8px 16px;border-radius:8px;display:inline-block;margin-top:4px;font-size:12px">' +
+        'node scripts/ee-orchestrator.js ee-data-' + slug + '.json</code></span>';
+    })
+    .finally(function() {
+      setTimeout(function() {
+        btn.disabled = false;
+        btn.innerHTML = '&#x1F680; Start EE';
+        btn.style.background = 'linear-gradient(135deg,#1b3a68,#3b6fad)';
+        btn.style.opacity = '1';
+      }, 10000);
+    });
   }
 </script>
 </body>
