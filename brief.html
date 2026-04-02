@@ -308,6 +308,12 @@
 <div class="form-footer">
   <button class="btn-submit" type="button" id="btn-submit" onclick="submitBrief()">Salvar Brief Interno</button>
   <div id="submit-status" class="footer-note">Dados salvos na aba "Brief Interno" da planilha EE Intake.</div>
+  <div style="margin-top:32px;padding-top:32px;border-top:2px solid #e5e0d5">
+    <button type="button" id="btn-start-ee" onclick="startEE()" style="padding:16px 48px;background:linear-gradient(135deg,#1b3a68,#3b6fad);color:white;border:none;border-radius:14px;font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(27,58,104,0.4);letter-spacing:1px;transition:transform 0.2s">
+      &#x1F680; Start EE
+    </button>
+    <div id="ee-status" class="footer-note" style="margin-top:8px">Consolida Intake + Brief e gera o arquivo de dados para o orquestrador.</div>
+  </div>
 </div>
 
 </div>
@@ -372,6 +378,116 @@
       status.innerHTML = '<span style="color:#ef4444">Erro: '+err.message+'</span>';
       btn.disabled = false;
     });
+  }
+  // ═══════════ START EE — Consolida dados e gera JSON ═══════════
+  function startEE() {
+    var btn = document.getElementById('btn-start-ee');
+    var status = document.getElementById('ee-status');
+    var empresa = val('b-empresa');
+
+    if (!empresa) {
+      status.innerHTML = '<span style="color:#ef4444">Preencha o nome da empresa primeiro e salve o Brief.</span>';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Gerando...';
+    btn.style.opacity = '0.7';
+    status.textContent = 'Consolidando dados do Intake + Brief...';
+
+    // Consolidar TODOS os dados do Brief (form atual)
+    var briefData = {
+      empresa: empresa,
+      dataEntrevista: val('b-data'),
+      entrevistador: val('b-entrevistador'),
+      faturamentoReal: val('b-faturamento-real'),
+      margem: val('b-margem'),
+      ltv: val('b-ltv'),
+      leadsMes: val('b-leads-mes'),
+      taxaConv: val('b-taxa-conv'),
+      cac: val('b-cac'),
+      gastoAds: val('b-gasto-ads'),
+      roas: val('b-roas'),
+      porqueParou: val('b-porque-parou'),
+      doresReais: val('b-dores-reais'),
+      diferencialReal: val('b-diferencial-real'),
+      gargalo: val('b-gargalo'),
+      processoComercial: val('b-processo-comercial'),
+      concorrentes: val('b-concorrentes'),
+      stackReal: val('b-stack-real'),
+      siteStatus: val('b-site-status'),
+      lpStatus: val('b-lp-status'),
+      pixel: radio('pixel'),
+      ga4: radio('ga4'),
+      crmConfig: radio('crm-config'),
+      fmaProcessos: radio('fma-proc'),
+      fmaPessoas: radio('fma-pess'),
+      fmaMidia: radio('fma-mid'),
+      fmaTech: radio('fma-tech'),
+      fmaCapital: radio('fma-cap'),
+      temperatura: radio('temp'),
+      impressao: radio('impressao'),
+      notas: val('b-notas')
+    };
+
+    // Buscar dados do Intake Form via Google Sheets API (Apps Script)
+    // Como estamos em no-cors, vamos incluir os dados do Intake que o Eduardo
+    // deve ter disponivel. Por ora, geramos com os dados do Brief + placeholders do Intake.
+    // No futuro: Apps Script retorna o Intake completo via doGet.
+
+    // Montar JSON completo para o orquestrador
+    var eeData = Object.assign({
+      // Dados que o Eduardo preenche/confirma do Intake
+      segmento: prompt('Segmento/Nicho (do Intake Form):') || '',
+      cidade: prompt('Cidade (do Intake Form):') || '',
+      ticketMedio: prompt('Ticket medio (do Intake Form):') || '',
+      modeloCobranca: prompt('Modelo de cobranca (Recorrente/Projeto/Misto):') || '',
+      produtoDescricao: prompt('Descricao do produto/servico (1-2 frases):') || '',
+      diferencial: prompt('Diferencial declarado pelo cliente:') || '',
+      clienteIdeal: prompt('Cliente ideal (do Intake Form):') || '',
+      cargoDecisor: prompt('Cargo do decisor de compra:') || '',
+      top3Dores: prompt('Top 3 dores (do Intake Form):') || '',
+      objecoes: prompt('Objecoes mais comuns:') || '',
+      cicloVenda: prompt('Ciclo de venda:') || '',
+      redesSociais: prompt('Redes sociais ativas:') || '',
+      crmAtual: prompt('CRM atual:') || '',
+      jaFezAds: prompt('Ja fez ads? (Sim/Nao/Parou):') || '',
+      origemClientes: prompt('De onde vem os clientes:') || '',
+      clientesNovosMes: prompt('Clientes novos/mes:') || '',
+      clientesAtivos: prompt('Clientes ativos total:') || '',
+      faturamento: prompt('Faturamento mensal (faixa):') || '',
+      budgetMkt: prompt('Budget de marketing:') || '',
+      objetivoMkt: prompt('Objetivo principal de MKT:') || '',
+      outrasFerramentas: prompt('Outras ferramentas em uso:') || ''
+    }, briefData);
+
+    // Gerar slug da empresa
+    var slug = empresa.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+
+    // Download do JSON
+    var blob = new Blob([JSON.stringify(eeData, null, 2)], {type: 'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'ee-data-' + slug + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    btn.textContent = 'JSON Gerado!';
+    btn.style.background = 'linear-gradient(135deg,#059669,#22c55e)';
+    status.innerHTML = '<span style="color:#059669">Arquivo <strong>ee-data-' + slug + '.json</strong> baixado!<br><br>' +
+      'Proximo passo — abra o terminal e rode:<br>' +
+      '<code style="background:#0a1628;color:#60a5fa;padding:8px 16px;border-radius:8px;display:inline-block;margin-top:8px;font-size:13px">' +
+      'node scripts/ee-orchestrator.js ee-data-' + slug + '.json</code><br><br>' +
+      'O orquestrador vai ativar os 15 agents automaticamente e gerar o EE.</span>';
+
+    // Re-habilitar apos 5s
+    setTimeout(function() {
+      btn.disabled = false;
+      btn.textContent = '\u{1F680} Start EE';
+      btn.style.background = 'linear-gradient(135deg,#1b3a68,#3b6fad)';
+      btn.style.opacity = '1';
+    }, 5000);
   }
 </script>
 </body>
