@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief Interno — Pos-Entrevista | Allfluence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  :root {
+    --navy-950: #060d1a; --navy-700: #152e54; --navy-400: #3b6fad;
+    --navy-300: #6a9fd4; --off-white: #faf9f6; --cream: #f5f3ee;
+    --text-primary: #1a1a2e; --text-muted: #8a8aa0; --accent: #3b82f6;
+    --green: #22c55e; --red: #ef4444; --amber: #f59e0b;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',system-ui,sans-serif; background:var(--off-white); color:var(--text-primary); line-height:1.6; font-size:15px; }
+  .page { max-width:800px; margin:0 auto; padding:0 24px; }
+  .header { background:var(--navy-950); padding:36px 0; text-align:center; color:white; position:relative; overflow:hidden; }
+  .header::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(239,68,68,0.15) 0%,transparent 70%); }
+  .header-content { position:relative; z-index:1; }
+  .header-badge { display:inline-block; padding:6px 16px; border-radius:100px; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#fca5a5; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.25); margin-bottom:16px; }
+  .header h1 { font-size:28px; font-weight:300; } .header h1 strong { font-weight:800; }
+  .header p { color:var(--navy-300); font-size:13px; margin-top:6px; }
+  .form-section { padding:32px 0; border-bottom:1px solid #e5e0d5; }
+  .form-section:last-of-type { border-bottom:none; }
+  .section-num { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--navy-400); font-weight:600; margin-bottom:4px; }
+  .section-title { font-size:20px; font-weight:300; color:var(--navy-950); margin-bottom:4px; }
+  .section-title strong { font-weight:800; }
+  .section-desc { font-size:12px; color:var(--text-muted); margin-bottom:20px; }
+  .section-tip { font-size:11px; color:#b91c1c; background:rgba(239,68,68,0.06); border-left:3px solid #ef4444; padding:8px 12px; border-radius:0 8px 8px 0; margin-bottom:16px; }
+  .field { margin-bottom:16px; }
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .field-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  label { display:block; font-size:11px; font-weight:600; color:var(--navy-700); margin-bottom:4px; letter-spacing:0.3px; }
+  label .req { color:var(--red); } label .opt { color:var(--text-muted); font-weight:400; }
+  label .crm { color:var(--accent); font-size:9px; font-weight:400; }
+  input,textarea,select { width:100%; padding:10px 14px; border:1px solid #d1d5db; border-radius:10px; font-family:inherit; font-size:13px; color:var(--text-primary); background:white; transition:border 0.2s; }
+  input:focus,textarea:focus,select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,0.1); }
+  textarea { resize:vertical; min-height:60px; }
+  .hint { font-size:10px; color:var(--text-muted); margin-top:3px; }
+  .option-group { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .option-item { padding:6px 14px; border:1px solid #d1d5db; border-radius:8px; font-size:12px; cursor:pointer; transition:all 0.2s; background:white; }
+  .option-item:hover { border-color:var(--accent); }
+  .option-item input { display:none; }
+  .option-item:has(input:checked) { border-color:var(--accent); background:rgba(59,130,246,0.08); color:var(--accent); font-weight:600; }
+  .scale-row { display:flex; gap:6px; }
+  .scale-item { flex:1; text-align:center; padding:8px; border:1px solid #d1d5db; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
+  .scale-item input { display:none; }
+  .scale-item:has(input:checked) { border-color:var(--accent); background:var(--accent); color:white; }
+  .scale-labels { display:flex; justify-content:space-between; font-size:9px; color:var(--text-muted); margin-top:3px; }
+  .form-footer { padding:24px 0 48px; text-align:center; }
+  .btn-submit { padding:14px 40px; background:linear-gradient(135deg,#b91c1c,#ef4444); color:white; border:none; border-radius:12px; font-family:inherit; font-size:14px; font-weight:700; cursor:pointer; box-shadow:0 4px 16px rgba(185,28,28,0.3); }
+  .btn-submit:hover { transform:translateY(-2px); }
+  .footer-note { font-size:10px; color:var(--text-muted); margin-top:8px; }
+  @media (max-width:640px) { .field-row,.field-row-3 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="header-badge">Uso Interno — Nao enviar ao cliente</div>
+    <h1>Brief <strong>Interno</strong></h1>
+    <p>Preencher apos a entrevista com o cliente. Complementa o Intake Form com dados reais.</p>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- BLOCO 1: IDENTIFICACAO -->
+<div class="form-section">
+  <div class="section-num">Bloco 1 — Identificacao</div>
+  <div class="section-title">Qual <strong>cliente</strong></div>
+  <div class="field-row">
+    <div class="field">
+      <label>Nome da empresa <span class="req">*</span> <span class="crm">→ company</span></label>
+      <input type="text" id="b-empresa" placeholder="Mesmo nome do Intake Form">
+    </div>
+    <div class="field">
+      <label>Data da entrevista <span class="req">*</span></label>
+      <input type="date" id="b-data">
+    </div>
+  </div>
+  <div class="field">
+    <label>Entrevistador <span class="req">*</span></label>
+    <input type="text" id="b-entrevistador" value="Eduardo Henriques">
+  </div>
+</div>
+
+<!-- BLOCO 2: FINANCEIRO REAL -->
+<div class="form-section">
+  <div class="section-num">Bloco 2 — Financeiro Real</div>
+  <div class="section-title">Numeros <strong>reais</strong></div>
+  <div class="section-desc">O que o cliente disse na call (nao o que declarou no form).</div>
+
+  <div class="field-row-3">
+    <div class="field">
+      <label>Faturamento real/mes <span class="req">*</span> <span class="crm">→ ee_faturamento_real</span></label>
+      <input type="text" id="b-faturamento-real" placeholder="Ex: R$ 45.000">
+    </div>
+    <div class="field">
+      <label>Margem estimada % <span class="opt">(se souber)</span> <span class="crm">→ ee_margem_pct</span></label>
+      <input type="text" id="b-margem" placeholder="Ex: 60%">
+    </div>
+    <div class="field">
+      <label>LTV estimado <span class="opt">(se calcular)</span> <span class="crm">→ ee_ltv_estimado</span></label>
+      <input type="text" id="b-ltv" placeholder="Ex: R$ 4.200">
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field">
+      <label>Leads/mes atual <span class="crm">→ ee_leads_mes_atual</span></label>
+      <input type="text" id="b-leads-mes" placeholder="Ex: 10-15">
+    </div>
+    <div class="field">
+      <label>Taxa conversao atual <span class="crm">→ ee_taxa_conv_atual</span></label>
+      <input type="text" id="b-taxa-conv" placeholder="Ex: 5% ou 'nao sabe'">
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field">
+      <label>CAC atual (se sabe) <span class="crm">→ ee_cac_atual</span></label>
+      <input type="text" id="b-cac" placeholder="Ex: R$ 500 ou 'nao mede'">
+    </div>
+    <div class="field">
+      <label>Gasto anterior em ads <span class="crm">→ ee_gasto_anterior_ads</span></label>
+      <input type="text" id="b-gasto-ads" placeholder="Ex: R$ 2.000/mes por 3 meses">
+    </div>
+  </div>
+  <div class="field">
+    <label>ROAS anterior (se fez ads) <span class="crm">→ ee_roas_anterior</span></label>
+    <input type="text" id="b-roas" placeholder="Ex: 2.5x ou 'nao mediram' ou 'nunca fez'">
+  </div>
+  <div class="field">
+    <label>Por que parou de fazer ads? <span class="crm">→ ee_porque_parou_ads</span></label>
+    <textarea id="b-porque-parou" placeholder="Ex: Nao viu resultado, ficou caro, agencia nao performou..."></textarea>
+  </div>
+</div>
+
+<!-- BLOCO 3: DIAGNOSTICO QUALITATIVO -->
+<div class="form-section">
+  <div class="section-num">Bloco 3 — Diagnostico Qualitativo</div>
+  <div class="section-title">O que voce <strong>percebeu</strong></div>
+  <div class="section-desc">Sua analise como consultor — o que o CLIENTE nao sabe sobre si mesmo.</div>
+
+  <div class="field">
+    <label>Dores REAIS (o que voce percebeu, nao so o que ele disse) <span class="req">*</span> <span class="crm">→ ee_dores_reais</span></label>
+    <textarea id="b-dores-reais" placeholder="Ex: Ele acha que o problema e falta de leads, mas na verdade nao tem processo de follow-up. Perde leads quentes por demora."></textarea>
+  </div>
+  <div class="field">
+    <label>Diferencial REAL (validado na conversa) <span class="req">*</span> <span class="crm">→ ee_diferencial_validado</span></label>
+    <textarea id="b-diferencial-real" placeholder="Ex: Ele diz que e o atendimento personalizado, mas o real diferencial e que e o unico da cidade especializado em medicos."></textarea>
+  </div>
+  <div class="field">
+    <label>Principal gargalo (onde trava o crescimento) <span class="req">*</span> <span class="crm">→ ee_gargalo_principal</span></label>
+    <textarea id="b-gargalo" placeholder="Ex: Dependencia total do fundador. Sem processo comercial. Sem nurturing."></textarea>
+  </div>
+  <div class="field">
+    <label>Processo comercial atual (como vende hoje) <span class="crm">→ ee_processo_comercial</span></label>
+    <textarea id="b-processo-comercial" placeholder="Ex: Indicacao chega no WhatsApp pessoal, ele responde quando pode, manda proposta por PDF, sem follow-up."></textarea>
+  </div>
+  <div class="field">
+    <label>Concorrentes que o cliente citou <span class="crm">→ ee_concorrentes_citados</span></label>
+    <textarea id="b-concorrentes" placeholder="Ex: AJ Med, PJ Zen, 'uma contabilidade digital que vi no Instagram'"></textarea>
+  </div>
+</div>
+
+<!-- BLOCO 4: STACK TECNICA -->
+<div class="form-section">
+  <div class="section-num">Bloco 4 — Stack Tecnica</div>
+  <div class="section-title">Ferramentas e <strong>integracoes</strong></div>
+  <div class="section-tip">Esses campos o GT vai pesquisar e complementar. Preencha o que souber da call.</div>
+
+  <div class="field">
+    <label>Ferramentas reais em uso (tudo que ele mencionou) <span class="crm">→ ee_stack_real</span></label>
+    <textarea id="b-stack-real" placeholder="Ex: ContaAzul, WhatsApp pessoal, planilha Google, Calendly (nao usa mais)"></textarea>
+  </div>
+  <div class="field-row">
+    <div class="field">
+      <label>Tem site? Qual? <span class="crm">→ ee_site_status</span></label>
+      <input type="text" id="b-site-status" placeholder="Ex: Sim (www.meet.com.br), ou 'So Instagram'">
+    </div>
+    <div class="field">
+      <label>Tem LP? Qual? <span class="crm">→ ee_lp_status</span></label>
+      <input type="text" id="b-lp-status" placeholder="Ex: Nao tem nenhuma">
+    </div>
+  </div>
+  <div class="field-row-3">
+    <div class="field">
+      <label>Pixel instalado? <span class="crm">→ ee_pixel_status</span></label>
+      <div class="option-group">
+        <label class="option-item"><input type="radio" name="pixel"> Sim</label>
+        <label class="option-item"><input type="radio" name="pixel"> Nao</label>
+        <label class="option-item"><input type="radio" name="pixel"> Nao sei</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>GA4 instalado? <span class="crm">→ ee_ga4_status</span></label>
+      <div class="option-group">
+        <label class="option-item"><input type="radio" name="ga4"> Sim</label>
+        <label class="option-item"><input type="radio" name="ga4"> Nao</label>
+        <label class="option-item"><input type="radio" name="ga4"> Nao sei</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>CRM configurado? <span class="crm">→ verificar</span></label>
+      <div class="option-group">
+        <label class="option-item"><input type="radio" name="crm-config"> Sim, ativo</label>
+        <label class="option-item"><input type="radio" name="crm-config"> Tem mas nao usa</label>
+        <label class="option-item"><input type="radio" name="crm-config"> Nao tem</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOCO 5: FMA SCORES -->
+<div class="form-section">
+  <div class="section-num">Bloco 5 — Scores FMA</div>
+  <div class="section-title">Diagnostico de <strong>Maturidade</strong></div>
+  <div class="section-desc">Baseado na entrevista, dê uma nota de 1 a 5 para cada dimensao.</div>
+
+  <div class="field">
+    <label>Processos (documentacao, CRM, SLA, replicabilidade) <span class="req">*</span> <span class="crm">→ ee_fma_processos</span></label>
+    <div class="scale-row">
+      <label class="scale-item"><input type="radio" name="fma-proc" value="1"> 1</label>
+      <label class="scale-item"><input type="radio" name="fma-proc" value="2"> 2</label>
+      <label class="scale-item"><input type="radio" name="fma-proc" value="3"> 3</label>
+      <label class="scale-item"><input type="radio" name="fma-proc" value="4"> 4</label>
+      <label class="scale-item"><input type="radio" name="fma-proc" value="5"> 5</label>
+    </div>
+    <div class="scale-labels"><span>Inexistente</span><span>Excelente</span></div>
+  </div>
+  <div class="field">
+    <label>Pessoas (time, delegacao, lideranca) <span class="req">*</span> <span class="crm">→ ee_fma_pessoas</span></label>
+    <div class="scale-row">
+      <label class="scale-item"><input type="radio" name="fma-pess" value="1"> 1</label>
+      <label class="scale-item"><input type="radio" name="fma-pess" value="2"> 2</label>
+      <label class="scale-item"><input type="radio" name="fma-pess" value="3"> 3</label>
+      <label class="scale-item"><input type="radio" name="fma-pess" value="4"> 4</label>
+      <label class="scale-item"><input type="radio" name="fma-pess" value="5"> 5</label>
+    </div>
+    <div class="scale-labels"><span>So fundador</span><span>Time estruturado</span></div>
+  </div>
+  <div class="field">
+    <label>Midia (conteudo, posicionamento, presenca) <span class="req">*</span> <span class="crm">→ ee_fma_midia</span></label>
+    <div class="scale-row">
+      <label class="scale-item"><input type="radio" name="fma-mid" value="1"> 1</label>
+      <label class="scale-item"><input type="radio" name="fma-mid" value="2"> 2</label>
+      <label class="scale-item"><input type="radio" name="fma-mid" value="3"> 3</label>
+      <label class="scale-item"><input type="radio" name="fma-mid" value="4"> 4</label>
+      <label class="scale-item"><input type="radio" name="fma-mid" value="5"> 5</label>
+    </div>
+    <div class="scale-labels"><span>Sem presenca</span><span>Multi-plataforma ativo</span></div>
+  </div>
+  <div class="field">
+    <label>Tecnologia (site, automacao, integracoes) <span class="req">*</span> <span class="crm">→ ee_fma_tech</span></label>
+    <div class="scale-row">
+      <label class="scale-item"><input type="radio" name="fma-tech" value="1"> 1</label>
+      <label class="scale-item"><input type="radio" name="fma-tech" value="2"> 2</label>
+      <label class="scale-item"><input type="radio" name="fma-tech" value="3"> 3</label>
+      <label class="scale-item"><input type="radio" name="fma-tech" value="4"> 4</label>
+      <label class="scale-item"><input type="radio" name="fma-tech" value="5"> 5</label>
+    </div>
+    <div class="scale-labels"><span>Zero tech</span><span>Stack integrada</span></div>
+  </div>
+  <div class="field">
+    <label>Capital (margem, gestao, metricas financeiras) <span class="req">*</span> <span class="crm">→ ee_fma_capital</span></label>
+    <div class="scale-row">
+      <label class="scale-item"><input type="radio" name="fma-cap" value="1"> 1</label>
+      <label class="scale-item"><input type="radio" name="fma-cap" value="2"> 2</label>
+      <label class="scale-item"><input type="radio" name="fma-cap" value="3"> 3</label>
+      <label class="scale-item"><input type="radio" name="fma-cap" value="4"> 4</label>
+      <label class="scale-item"><input type="radio" name="fma-cap" value="5"> 5</label>
+    </div>
+    <div class="scale-labels"><span>Sem controle</span><span>Gestao por dados</span></div>
+  </div>
+</div>
+
+<!-- BLOCO 6: IMPRESSAO GERAL -->
+<div class="form-section">
+  <div class="section-num">Bloco 6 — Impressao Geral</div>
+  <div class="section-title">Sua <strong>avaliacao</strong></div>
+
+  <div class="field">
+    <label>Temperatura do lead <span class="req">*</span> <span class="crm">→ ee_temperatura</span></label>
+    <div class="option-group">
+      <label class="option-item" style="border-color:#22c55e"><input type="radio" name="temp"> Quente — quer comecar ja</label>
+      <label class="option-item" style="border-color:#f59e0b"><input type="radio" name="temp"> Morno — interessado mas precisa convencer</label>
+      <label class="option-item" style="border-color:#6b7280"><input type="radio" name="temp"> Frio — so explorando opcoes</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>Impressao geral <span class="req">*</span> <span class="crm">→ ee_impressao_comercial</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="radio" name="impressao"> Excelente fit — fechar rapido</label>
+      <label class="option-item"><input type="radio" name="impressao"> Bom fit — precisa de nurturing</label>
+      <label class="option-item"><input type="radio" name="impressao"> Fit medio — avaliar custo-beneficio</label>
+      <label class="option-item"><input type="radio" name="impressao"> Nao recomendo — fora do perfil</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>Notas livres da entrevista <span class="crm">→ ee_notas_entrevista</span></label>
+    <textarea id="b-notas" rows="4" placeholder="Tudo que vale registrar: tom da conversa, sinais de compra, objecoes, pessoas mencionadas, proximos passos combinados..."></textarea>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="form-footer">
+  <button class="btn-submit" type="button" id="btn-submit" onclick="submitBrief()">Salvar Brief Interno</button>
+  <div id="submit-status" class="footer-note">Dados salvos na aba "Brief Interno" da planilha EE Intake.</div>
+</div>
+
+</div>
+
+<script>
+  // Google Sheets URL (mesma planilha, Apps Script identifica pela flag)
+  var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDNF0HiRGeb9sv88Y7bMUqDngt8axkApAizobeyKwEJ6a80PEMsqdeEoJiyThR4vSZEQ/exec';
+
+  function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  function radio(name) { var el = document.querySelector('input[name="'+name+'"]:checked'); return el ? el.parentElement.textContent.trim() : ''; }
+
+  function submitBrief() {
+    var btn = document.getElementById('btn-submit');
+    var status = document.getElementById('submit-status');
+
+    var data = {
+      _type: 'brief_interno',
+      empresa: val('b-empresa'),
+      data_entrevista: val('b-data'),
+      entrevistador: val('b-entrevistador'),
+      faturamento_real: val('b-faturamento-real'),
+      margem: val('b-margem'),
+      ltv: val('b-ltv'),
+      leads_mes: val('b-leads-mes'),
+      taxa_conv: val('b-taxa-conv'),
+      cac: val('b-cac'),
+      gasto_ads: val('b-gasto-ads'),
+      roas: val('b-roas'),
+      porque_parou: val('b-porque-parou'),
+      dores_reais: val('b-dores-reais'),
+      diferencial_real: val('b-diferencial-real'),
+      gargalo: val('b-gargalo'),
+      processo_comercial: val('b-processo-comercial'),
+      concorrentes: val('b-concorrentes'),
+      stack_real: val('b-stack-real'),
+      site_status: val('b-site-status'),
+      lp_status: val('b-lp-status'),
+      pixel: radio('pixel'),
+      ga4: radio('ga4'),
+      crm_config: radio('crm-config'),
+      fma_processos: radio('fma-proc'),
+      fma_pessoas: radio('fma-pess'),
+      fma_midia: radio('fma-mid'),
+      fma_tech: radio('fma-tech'),
+      fma_capital: radio('fma-cap'),
+      temperatura: radio('temp'),
+      impressao: radio('impressao'),
+      notas: val('b-notas')
+    };
+
+    if (!data.empresa) { status.innerHTML = '<span style="color:#ef4444">Preencha o nome da empresa.</span>'; return; }
+
+    btn.disabled = true; btn.textContent = 'Salvando...'; btn.style.opacity = '0.6';
+
+    fetch(GOOGLE_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) })
+    .then(function() {
+      btn.textContent = 'Salvo!'; btn.style.background = 'linear-gradient(135deg,#059669,#22c55e)';
+      status.innerHTML = '<span style="color:#059669">Brief salvo na planilha. Dados prontos para os agents produzirem o EE.</span>';
+    })
+    .catch(function(err) {
+      btn.textContent = 'Erro'; btn.style.background = 'linear-gradient(135deg,#dc2626,#ef4444)';
+      status.innerHTML = '<span style="color:#ef4444">Erro: '+err.message+'</span>';
+      btn.disabled = false;
+    });
+  }
+</script>
+</body>
+</html>
