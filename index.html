@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Intake — Estruturacao Estrategica</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  :root {
+    --navy-950: #060d1a;
+    --navy-900: #0a1628;
+    --navy-700: #152e54;
+    --navy-600: #1b3a68;
+    --navy-400: #3b6fad;
+    --navy-300: #6a9fd4;
+    --navy-200: #a3c4e8;
+    --off-white: #faf9f6;
+    --cream: #f5f3ee;
+    --text-primary: #1a1a2e;
+    --text-muted: #8a8aa0;
+    --accent: #3b82f6;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--off-white);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .page { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .header {
+    background: var(--navy-950);
+    padding: 48px 0;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,111,173,0.2) 0%, transparent 70%);
+  }
+  .header-content { position: relative; z-index: 1; }
+  .header h1 { font-size: 32px; font-weight: 300; letter-spacing: -1px; }
+  .header h1 strong { font-weight: 800; color: #ffffff; }
+  .header p { color: var(--navy-300); font-size: 14px; margin-top: 8px; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .header-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--navy-300);
+    background: rgba(59,111,173,0.15);
+    border: 1px solid rgba(59,111,173,0.25);
+    margin-bottom: 20px;
+  }
+
+  /* Progress */
+  .progress {
+    display: flex;
+    gap: 4px;
+    padding: 24px 0 8px;
+    position: sticky;
+    top: 0;
+    background: var(--off-white);
+    z-index: 10;
+  }
+  .progress-step {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--cream);
+    transition: background 0.3s;
+  }
+  .progress-step.active { background: var(--accent); }
+  .progress-step.done { background: var(--green); }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-bottom: 24px;
+  }
+
+  /* Sections */
+  .form-section {
+    padding: 40px 0;
+    border-bottom: 1px solid #e5e0d5;
+  }
+  .form-section:last-of-type { border-bottom: none; }
+  .section-num {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--navy-400);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--navy-900);
+    margin-bottom: 4px;
+  }
+  .section-title strong { font-weight: 800; }
+  .section-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    max-width: 600px;
+  }
+  .section-tip {
+    font-size: 11px;
+    color: var(--navy-400);
+    background: rgba(59,111,173,0.06);
+    border-left: 3px solid var(--navy-400);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 24px;
+  }
+
+  /* Form fields */
+  .field { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy-700);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+  label .req { color: var(--red); }
+  label .opt { color: var(--text-muted); font-weight: 400; font-size: 11px; }
+  input, textarea, select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: white;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  .hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Radio / Checkbox group */
+  .option-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .option-item {
+    padding: 8px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+  .option-item:hover { border-color: var(--accent); background: rgba(59,130,246,0.04); }
+  .option-item input { display: none; }
+  .option-item:has(input:checked) {
+    border-color: var(--accent);
+    background: rgba(59,130,246,0.08);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Scale */
+  .scale-row { display: flex; gap: 8px; margin-top: 4px; }
+  .scale-item {
+    flex: 1;
+    text-align: center;
+    padding: 10px 4px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .scale-item:hover { border-color: var(--accent); }
+  .scale-item input { display: none; }
+  .scale-item:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+  }
+  .scale-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Footer */
+  .form-footer {
+    padding: 32px 0 64px;
+    text-align: center;
+  }
+  .btn-submit {
+    padding: 16px 48px;
+    background: linear-gradient(135deg, var(--navy-700), var(--navy-600));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(21,46,84,0.3);
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(21,46,84,0.4); }
+  .footer-note { font-size: 11px; color: var(--text-muted); margin-top: 12px; }
+
+  @media (max-width: 640px) {
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .scale-row { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-badge">Formulario de Intake</div>
+    <h1>Estruturacao <strong>Estrategica</strong></h1>
+    <p>Preencha as informacoes abaixo para iniciarmos a construcao da sua maquina de vendas. Apenas perguntas essenciais — o resto pesquisamos por conta propria.</p>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- PROGRESS -->
+<div class="progress">
+  <div class="progress-step active"></div>
+  <div class="progress-step"></div>
+  <div class="progress-step"></div>
+  <div class="progress-step"></div>
+  <div class="progress-step"></div>
+  <div class="progress-step"></div>
+</div>
+<div class="progress-label">
+  <span>Empresa</span>
+  <span>Produto</span>
+  <span>Cliente</span>
+  <span>Canais</span>
+  <span>Comercial</span>
+  <span>Metas</span>
+</div>
+
+<!-- ═══════════ BLOCO 1: EMPRESA ═══════════ -->
+<div class="form-section">
+  <div class="section-num">Bloco 1 de 6</div>
+  <div class="section-title">Sobre a <strong>Empresa</strong></div>
+  <div class="section-desc">Informacoes basicas para entendermos quem voce e e onde esta.</div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Nome da empresa <span class="req">*</span></label>
+      <input type="text" placeholder="Ex: Meet Assessoria Contabil">
+    </div>
+    <div class="field">
+      <label>Segmento / Nicho <span class="req">*</span></label>
+      <input type="text" placeholder="Ex: Contabilidade para medicos">
+    </div>
+  </div>
+
+  <div class="field-row-3">
+    <div class="field">
+      <label>Cidade / Estado <span class="req">*</span></label>
+      <input type="text" placeholder="Ex: Rio de Janeiro / RJ">
+    </div>
+    <div class="field">
+      <label>Tempo de mercado <span class="req">*</span></label>
+      <select>
+        <option value="">Selecione</option>
+        <option>Menos de 1 ano</option>
+        <option>1 a 3 anos</option>
+        <option>3 a 5 anos</option>
+        <option>5 a 10 anos</option>
+        <option>Mais de 10 anos</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Num. de funcionarios <span class="req">*</span></label>
+      <select>
+        <option value="">Selecione</option>
+        <option>So eu (fundador)</option>
+        <option>2 a 5</option>
+        <option>6 a 15</option>
+        <option>16 a 50</option>
+        <option>Mais de 50</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Site da empresa <span class="opt">(se tiver)</span></label>
+    <input type="url" placeholder="https://www.suaempresa.com.br">
+    <div class="hint">Nao tem site? Sem problema — analisamos o que existe e recomendamos.</div>
+  </div>
+
+  <div class="field">
+    <label>Quem e o principal decisor deste projeto? <span class="req">*</span></label>
+    <div class="field-row">
+      <input type="text" placeholder="Nome completo">
+      <input type="text" placeholder="Cargo (Ex: Socio, Diretor, Gerente)">
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ BLOCO 2: PRODUTO / SERVICO ═══════════ -->
+<div class="form-section">
+  <div class="section-num">Bloco 2 de 6</div>
+  <div class="section-title">Produto ou <strong>Servico</strong></div>
+  <div class="section-desc">O que voce vende, para quem, e por quanto.</div>
+
+  <div class="field">
+    <label>Descreva seu produto/servico principal em 2-3 frases <span class="req">*</span></label>
+    <textarea placeholder="Ex: Oferecemos contabilidade especializada para medicos e dentistas autonomos, com foco em reducao legal de impostos e migracao PF para PJ."></textarea>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Ticket medio mensal <span class="req">*</span></label>
+      <input type="text" placeholder="Ex: R$ 350/mes">
+    </div>
+    <div class="field">
+      <label>Modelo de cobranca <span class="req">*</span></label>
+      <select>
+        <option value="">Selecione</option>
+        <option>Recorrente (mensal/anual)</option>
+        <option>Projeto unico</option>
+        <option>Por hora/consulta</option>
+        <option>Misto (recorrente + projetos)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tem mais de um produto/plano? Se sim, liste com precos <span class="opt">(se aplicavel)</span></label>
+    <textarea rows="3" placeholder="Ex: Plano Essencial R$350/mes (2 NFs, 1 func), Plano Premium R$800/mes (5 NFs, folha completa)"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Qual o principal diferencial vs concorrentes? <span class="req">*</span></label>
+    <textarea rows="2" placeholder="Ex: Somos os unicos especializados exclusivamente em saude, com mapa tributario em 72h"></textarea>
+  </div>
+</div>
+
+<!-- ═══════════ BLOCO 3: CLIENTE IDEAL ═══════════ -->
+<div class="form-section">
+  <div class="section-num">Bloco 3 de 6</div>
+  <div class="section-title">Seu <strong>Cliente Ideal</strong></div>
+  <div class="section-desc">Quem compra de voce hoje e quem voce QUER que compre.</div>
+  <div class="section-tip">Nao se preocupe em ser perfeito — estamos buscando padroes, nao definicoes exatas. Nosso time de pesquisa vai aprofundar depois.</div>
+
+  <div class="field">
+    <label>Descreva seu melhor cliente (o que mais da lucro e menos da dor de cabeca) <span class="req">*</span></label>
+    <textarea placeholder="Ex: Medico autonomo, 35-50 anos, com microempresa, fatura entre R$15k-50k/mes, precisa emitir nota para plano de saude"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Que cargo/profissao tem a pessoa que DECIDE a compra? <span class="req">*</span></label>
+    <input type="text" placeholder="Ex: O proprio medico, pois e dono do consultorio">
+  </div>
+
+  <div class="field">
+    <label>Top 3 dores que fazem o cliente procurar voce <span class="req">*</span></label>
+    <textarea rows="3" placeholder="1. Paga imposto demais e nao sabe como reduzir&#10;2. Medo de cair na malha fina&#10;3. Nao entende nada de contabilidade"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Objecoes mais comuns que ouve antes de fechar <span class="req">*</span></label>
+    <textarea rows="3" placeholder="1. 'Contadores sao todos iguais'&#10;2. 'Ja tenho contador'&#10;3. 'E muito caro'"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Ciclo medio de venda (do primeiro contato ao fechamento) <span class="req">*</span></label>
+    <select>
+      <option value="">Selecione</option>
+      <option>Mesmo dia</option>
+      <option>1 a 7 dias</option>
+      <option>7 a 14 dias</option>
+      <option>14 a 30 dias</option>
+      <option>30 a 60 dias</option>
+      <option>Mais de 60 dias</option>
+    </select>
+  </div>
+</div>
+
+<!-- ═══════════ BLOCO 4: CANAIS E PRESENCA ═══════════ -->
+<div class="form-section">
+  <div class="section-num">Bloco 4 de 6</div>
+  <div class="section-title">Canais e <strong>Presenca Digital</strong></div>
+  <div class="section-desc">Onde voce esta hoje. Marque tudo que se aplica.</div>
+  <div class="section-tip">Nao se preocupe com detalhes tecnicos (pixels, tags etc) — nosso time tecnico analisa isso. Queremos saber apenas ONDE voce esta presente.</div>
+
+  <div class="field">
+    <label>Redes sociais ativas (marque todas que usa) <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="checkbox"> Instagram</label>
+      <label class="option-item"><input type="checkbox"> LinkedIn</label>
+      <label class="option-item"><input type="checkbox"> YouTube</label>
+      <label class="option-item"><input type="checkbox"> TikTok</label>
+      <label class="option-item"><input type="checkbox"> Facebook</label>
+      <label class="option-item"><input type="checkbox"> Twitter/X</label>
+      <label class="option-item"><input type="checkbox"> Nenhuma</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Usa WhatsApp Business? <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="radio" name="whatsapp"> Sim, com numero comercial dedicado</label>
+      <label class="option-item"><input type="radio" name="whatsapp"> Sim, mas no numero pessoal</label>
+      <label class="option-item"><input type="radio" name="whatsapp"> Nao uso WhatsApp para negocios</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Ja fez anuncios pagos? (Google, Meta, LinkedIn etc) <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="radio" name="ads"> Sim, atualmente rodando</label>
+      <label class="option-item"><input type="radio" name="ads"> Ja fiz mas parei</label>
+      <label class="option-item"><input type="radio" name="ads"> Nunca fiz</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Usa algum CRM ou ferramenta de gestao de leads? <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="radio" name="crm"> HubSpot</label>
+      <label class="option-item"><input type="radio" name="crm"> RD Station</label>
+      <label class="option-item"><input type="radio" name="crm"> Pipedrive</label>
+      <label class="option-item"><input type="radio" name="crm"> Planilha / Manual</label>
+      <label class="option-item"><input type="radio" name="crm"> Nao uso nada</label>
+      <label class="option-item"><input type="radio" name="crm"> Outro</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tem email marketing ou automacao de mensagens? <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="radio" name="email"> Sim, ativo e funcionando</label>
+      <label class="option-item"><input type="radio" name="email"> Tenho ferramenta mas nao uso direito</label>
+      <label class="option-item"><input type="radio" name="email"> Nao tenho</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tem agenda online (Calendly, Google Agenda etc)? <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="radio" name="agenda"> Sim</label>
+      <label class="option-item"><input type="radio" name="agenda"> Nao</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Outras ferramentas que usa no dia a dia <span class="opt">(se aplicavel)</span></label>
+    <textarea rows="2" placeholder="Ex: ContaAzul, Dominio Sistemas, Google Sheets, Notion, Trello..."></textarea>
+  </div>
+</div>
+
+<!-- ═══════════ BLOCO 5: COMERCIAL E VENDAS ═══════════ -->
+<div class="form-section">
+  <div class="section-num">Bloco 5 de 6</div>
+  <div class="section-title">Processo <strong>Comercial</strong></div>
+  <div class="section-desc">Como voce vende hoje e de onde vem seus clientes.</div>
+
+  <div class="field">
+    <label>De onde vem a maioria dos seus clientes hoje? <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="checkbox"> Indicacao / boca a boca</label>
+      <label class="option-item"><input type="checkbox"> Google (busca organica)</label>
+      <label class="option-item"><input type="checkbox"> Instagram</label>
+      <label class="option-item"><input type="checkbox"> LinkedIn</label>
+      <label class="option-item"><input type="checkbox"> Anuncios pagos</label>
+      <label class="option-item"><input type="checkbox"> Parcerias</label>
+      <label class="option-item"><input type="checkbox"> Eventos/networking</label>
+      <label class="option-item"><input type="checkbox"> Nao sei com certeza</label>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Quantos clientes novos por mes (media)? <span class="req">*</span></label>
+      <select>
+        <option value="">Selecione</option>
+        <option>0 a 2</option>
+        <option>3 a 5</option>
+        <option>6 a 10</option>
+        <option>11 a 20</option>
+        <option>Mais de 20</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Quantos clientes ativos tem hoje? <span class="req">*</span></label>
+      <select>
+        <option value="">Selecione</option>
+        <option>Menos de 10</option>
+        <option>10 a 30</option>
+        <option>30 a 50</option>
+        <option>50 a 100</option>
+        <option>Mais de 100</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Quem faz a venda hoje? <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="radio" name="vendedor"> Eu mesmo (fundador)</label>
+      <label class="option-item"><input type="radio" name="vendedor"> Time comercial / SDR</label>
+      <label class="option-item"><input type="radio" name="vendedor"> Vendas + fundador juntos</label>
+      <label class="option-item"><input type="radio" name="vendedor"> Ninguem vende ativamente — clientes vem sozinhos</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tem depoimentos ou cases de sucesso documentados? <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="radio" name="cases"> Sim, varios</label>
+      <label class="option-item"><input type="radio" name="cases"> Tenho 1 ou 2</label>
+      <label class="option-item"><input type="radio" name="cases"> Tenho mas nao estao documentados</label>
+      <label class="option-item"><input type="radio" name="cases"> Nao tenho nenhum</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Qual a taxa de cancelamento / churn mensal? <span class="opt">(se recorrente)</span></label>
+    <select>
+      <option value="">Selecione</option>
+      <option>Menos de 2%</option>
+      <option>2% a 5%</option>
+      <option>5% a 10%</option>
+      <option>Mais de 10%</option>
+      <option>Nao sei / Nao acompanho</option>
+    </select>
+  </div>
+</div>
+
+<!-- ═══════════ BLOCO 6: METAS E INVESTIMENTO ═══════════ -->
+<div class="form-section">
+  <div class="section-num">Bloco 6 de 6</div>
+  <div class="section-title">Metas e <strong>Investimento</strong></div>
+  <div class="section-desc">Onde quer chegar e quanto esta disposto a investir para chegar la.</div>
+
+  <div class="field">
+    <label>Qual o principal objetivo com marketing nos proximos 6 meses? <span class="req">*</span></label>
+    <div class="option-group">
+      <label class="option-item"><input type="checkbox"> Gerar mais leads qualificados</label>
+      <label class="option-item"><input type="checkbox"> Aumentar conversao dos leads atuais</label>
+      <label class="option-item"><input type="checkbox"> Construir autoridade / marca</label>
+      <label class="option-item"><input type="checkbox"> Reduzir dependencia de indicacao</label>
+      <label class="option-item"><input type="checkbox"> Estruturar processo comercial</label>
+      <label class="option-item"><input type="checkbox"> Automatizar follow-up / nurturing</label>
+      <label class="option-item"><input type="checkbox"> Escalar o que ja funciona</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Faturamento mensal atual (faixa) <span class="req">*</span></label>
+    <select>
+      <option value="">Selecione</option>
+      <option>Ate R$ 10.000</option>
+      <option>R$ 10.000 a R$ 30.000</option>
+      <option>R$ 30.000 a R$ 50.000</option>
+      <option>R$ 50.000 a R$ 100.000</option>
+      <option>R$ 100.000 a R$ 300.000</option>
+      <option>Mais de R$ 300.000</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Budget mensal disponivel para marketing (trafego + ferramentas) <span class="req">*</span></label>
+    <select>
+      <option value="">Selecione</option>
+      <option>Ainda nao tenho budget definido</option>
+      <option>Ate R$ 1.000/mes</option>
+      <option>R$ 1.000 a R$ 3.000/mes</option>
+      <option>R$ 3.000 a R$ 5.000/mes</option>
+      <option>R$ 5.000 a R$ 10.000/mes</option>
+      <option>Mais de R$ 10.000/mes</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Em uma escala de 1 a 5, qual a urgencia de comecar? <span class="req">*</span></label>
+    <div class="scale-row">
+      <label class="scale-item"><input type="radio" name="urgencia" value="1"> 1</label>
+      <label class="scale-item"><input type="radio" name="urgencia" value="2"> 2</label>
+      <label class="scale-item"><input type="radio" name="urgencia" value="3"> 3</label>
+      <label class="scale-item"><input type="radio" name="urgencia" value="4"> 4</label>
+      <label class="scale-item"><input type="radio" name="urgencia" value="5"> 5</label>
+    </div>
+    <div class="scale-labels"><span>Sem pressa</span><span>Preciso pra ontem</span></div>
+  </div>
+
+  <div class="field">
+    <label>Algo mais que acha importante compartilhar? <span class="opt">(opcional)</span></label>
+    <textarea rows="3" placeholder="Ex: Estou planejando lancar um novo servico, tive uma experiencia ruim com outra agencia, tenho uma meta especifica..."></textarea>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="form-footer">
+  <button class="btn-submit" type="button" id="btn-submit" onclick="submitForm()">Enviar e Iniciar Estrategia</button>
+  <div id="submit-status" class="footer-note">Tempo medio de preenchimento: 8-12 minutos. Suas informacoes sao confidenciais.</div>
+</div>
+
+</div>
+
+<script>
+  // ═══════════ PROGRESS BAR ═══════════
+  var sections = document.querySelectorAll('.form-section');
+  var steps = document.querySelectorAll('.progress-step');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var idx = Array.from(sections).indexOf(entry.target);
+        steps.forEach(function(s, i) {
+          s.classList.remove('active');
+          if (i < idx) s.classList.add('done');
+          else s.classList.remove('done');
+          if (i === idx) s.classList.add('active');
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(function(s) { observer.observe(s); });
+
+  // ═══════════ GOOGLE SHEETS URL ═══════════
+  // INSTRUCAO: Substitua a URL abaixo pela URL do seu Google Apps Script Web App
+  var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDNF0HiRGeb9sv88Y7bMUqDngt8axkApAizobeyKwEJ6a80PEMsqdeEoJiyThR4vSZEQ/exec';
+
+  // ═══════════ COLETA DE DADOS ═══════════
+  function getVal(placeholder) {
+    var el = document.querySelector('[placeholder*="' + placeholder + '"]');
+    return el ? el.value : '';
+  }
+  function getSelect(label) {
+    var labels = document.querySelectorAll('label');
+    for (var i = 0; i < labels.length; i++) {
+      if (labels[i].textContent.indexOf(label) !== -1) {
+        var next = labels[i].nextElementSibling;
+        if (next && next.tagName === 'SELECT') return next.value;
+      }
+    }
+    return '';
+  }
+  function getTextarea(placeholder) {
+    var el = document.querySelector('textarea[placeholder*="' + placeholder + '"]');
+    return el ? el.value : '';
+  }
+  function getChecked(name) {
+    var checked = document.querySelectorAll('input[name="' + name + '"]:checked');
+    if (checked.length > 0) {
+      return checked[0].parentElement.textContent.trim();
+    }
+    return '';
+  }
+  function getCheckboxes(sectionTitle) {
+    var results = [];
+    var found = false;
+    var labels = document.querySelectorAll('label');
+    for (var i = 0; i < labels.length; i++) {
+      if (labels[i].textContent.indexOf(sectionTitle) !== -1) {
+        found = true;
+        continue;
+      }
+      if (found && labels[i].classList.contains('option-item')) {
+        var cb = labels[i].querySelector('input[type="checkbox"]');
+        if (cb && cb.checked) results.push(labels[i].textContent.trim());
+      }
+      if (found && !labels[i].classList.contains('option-item') && results.length > 0) break;
+    }
+    return results.join(', ');
+  }
+
+  // ═══════════ SUBMIT ═══════════
+  function submitForm() {
+    var btn = document.getElementById('btn-submit');
+    var status = document.getElementById('submit-status');
+
+    // Coleta
+    var data = {
+      empresa: getVal('Meet Assessoria'),
+      segmento: getVal('Contabilidade para'),
+      cidade: getVal('Rio de Janeiro'),
+      tempoMercado: getSelect('Tempo de mercado'),
+      funcionarios: getSelect('Num. de funcionarios'),
+      site: getVal('suaempresa.com'),
+      decisorNome: getVal('Nome completo'),
+      decisorCargo: getVal('Socio, Diretor'),
+      produtoDescricao: getTextarea('Oferecemos contabilidade'),
+      ticketMedio: getVal('R$ 350'),
+      modeloCobranca: getSelect('Modelo de cobranca'),
+      outrosPlanos: getTextarea('Plano Essencial'),
+      diferencial: getTextarea('unicos especializados'),
+      clienteIdeal: getTextarea('Medico autonomo'),
+      cargoDecisor: getVal('proprio medico'),
+      top3Dores: getTextarea('Paga imposto demais'),
+      objecoes: getTextarea('Contadores sao todos'),
+      cicloVenda: getSelect('Ciclo medio de venda'),
+      redesSociais: getCheckboxes('Redes sociais ativas'),
+      whatsapp: getChecked('whatsapp'),
+      jaFezAds: getChecked('ads'),
+      crmAtual: getChecked('crm'),
+      emailMarketing: getChecked('email'),
+      agendaOnline: getChecked('agenda'),
+      outrasFerramentas: getTextarea('ContaAzul'),
+      origemClientes: getCheckboxes('De onde vem a maioria'),
+      clientesNovosMes: getSelect('Quantos clientes novos'),
+      clientesAtivos: getSelect('Quantos clientes ativos'),
+      quemVende: getChecked('vendedor'),
+      depoimentos: getChecked('cases'),
+      churn: getSelect('taxa de cancelamento'),
+      objetivoMkt: getCheckboxes('principal objetivo'),
+      faturamento: getSelect('Faturamento mensal'),
+      budgetMkt: getSelect('Budget mensal'),
+      urgencia: getChecked('urgencia'),
+      observacoes: getTextarea('planejando lancar')
+    };
+
+    // Validacao minima
+    if (!data.empresa) {
+      status.innerHTML = '<span style="color:#ef4444">Preencha pelo menos o nome da empresa.</span>';
+      return;
+    }
+
+    // UI feedback
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    btn.style.opacity = '0.6';
+    status.textContent = 'Salvando suas informacoes...';
+
+    // Enviar
+    if (GOOGLE_SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
+      // Modo offline — salva como JSON no console
+      console.log('EE Intake Data:', JSON.stringify(data, null, 2));
+      btn.textContent = 'Dados Capturados!';
+      btn.style.background = 'linear-gradient(135deg, #059669, #22c55e)';
+      status.innerHTML = '<span style="color:#059669">Dados capturados no console (modo offline). Configure a URL do Google Apps Script para salvar na planilha.</span>';
+      return;
+    }
+
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(function() {
+      btn.textContent = 'Enviado com Sucesso!';
+      btn.style.background = 'linear-gradient(135deg, #059669, #22c55e)';
+      status.innerHTML = '<span style="color:#059669">Informacoes recebidas! Nossa equipe vai analisar e agendar a primeira sessao em ate 48h.</span>';
+    })
+    .catch(function(err) {
+      btn.textContent = 'Erro — Tente Novamente';
+      btn.style.background = 'linear-gradient(135deg, #dc2626, #ef4444)';
+      status.innerHTML = '<span style="color:#ef4444">Erro ao enviar: ' + err.message + '</span>';
+      btn.disabled = false;
+      setTimeout(function() {
+        btn.textContent = 'Enviar e Iniciar Estrategia';
+        btn.style.background = '';
+        btn.style.opacity = '';
+      }, 3000);
+    });
+  }
+</script>
+
+</body>
+</html>
